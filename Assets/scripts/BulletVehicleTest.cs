@@ -5,7 +5,7 @@ using BulletSharp;
 using VehicleDemo;
 using BulletSharp.Math;
 
-public class VehicleControl : MonoBehaviour {
+public class BulletVehicleTest : MonoBehaviour {
 	#region WORLD
 	public BulletUnity.BPhysicsWorld World;
 

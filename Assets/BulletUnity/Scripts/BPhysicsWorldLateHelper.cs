@@ -27,8 +27,8 @@ namespace BulletUnity
         internal CollisionWorld m_world;
         internal int m__frameCount = 0;
         internal float m_lastSimulationStepTime = 0;
-        internal float m_fixedTimeStep = 1f / 60f;
-        internal int m_maxSubsteps = 3;
+        internal float m_fixedTimeStep = 1f / 30f;
+        internal int m_maxSubsteps = 1;
 
         void Awake()
         {
@@ -48,7 +48,7 @@ namespace BulletUnity
                     ///By default, Bullet will subdivide the timestep in constant substeps of each 'fixedTimeStep'.
                     ///in order to keep the simulation real-time, the maximum number of substeps can be clamped to 'maxSubSteps'.
                     ///You can disable subdividing the timestep/substepping by passing maxSubSteps=0 as second argument to stepSimulation, but in that case you have to keep the timeStep constant.
-                    int numSteps = m_ddWorld.StepSimulation(deltaTime, m_maxSubsteps, m_fixedTimeStep);
+					int numSteps = m_ddWorld.StepSimulation(deltaTime, m_maxSubsteps, m_fixedTimeStep);
                     //Debug.Log("FixedUpdate " + numSteps);
                     m_lastSimulationStepTime = UnityEngine.Time.time;
                 }
