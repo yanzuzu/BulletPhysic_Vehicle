@@ -77,7 +77,7 @@ public class Vehicle : MonoBehaviour {
 
 	void Update()
 	{
-		checkInput ();
+		//checkInput ();
 		carPhysicsUpdate ();
 	}
 
@@ -116,6 +116,12 @@ public class Vehicle : MonoBehaviour {
 		for (int i = 0; i < wheelTransform.Length; i++) {
 			wheelTransform [i].Rotate (rotationAmount);
 		}
+	}
+
+	public void SetInput(float pHorizontal, float pThrottle)
+	{
+		horizontal = pHorizontal;
+		throttle = pThrottle;
 	}
 
 	void checkInput()
