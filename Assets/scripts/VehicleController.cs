@@ -19,6 +19,7 @@ public class VehicleController : MonoBehaviour {
 	private float m_horizontal = 0;
 	private float m_vertical = 0;
 	private float m_steerIncrement = 3f;
+	private float m_forceIncrement = 3f;
 	private Dictionary<JOYSTICK_BTN_TYPE,bool> m_joyStickState = new Dictionary<JOYSTICK_BTN_TYPE, bool> ();
 
 	void Start()
@@ -58,19 +59,27 @@ public class VehicleController : MonoBehaviour {
 
 	private void UpdateJoySitckState()
 	{
-		m_vertical *= (1f - Time.fixedDeltaTime);
 		#if UNITY_EDITOR
-//			m_horizontal = Input.GetAxis ("Horizontal");
-//			m_vertical = Input.GetAxis ("Vertical");
-		#endif
+			m_horizontal = Input.GetAxis ("Horizontal");
+			m_vertical = Input.GetAxis ("Vertical");
+		#else
 
+		float m_forceIncrement = Time.deltaTime* m_steerIncrement;
 		if (m_joyStickState [JOYSTICK_BTN_TYPE.GAS]) {
-			m_vertical = 1;
+			m_vertical += m_forceIncrement;
+			if (m_vertical > 1)
+				m_vertical = 1;
+		} else if ((m_vertical - float.Epsilon) > 0){
+			m_vertical -= m_forceIncrement;
 		} 
 
 		if (m_joyStickState [JOYSTICK_BTN_TYPE.BACK]) {
-			m_vertical = -1f;
-		} 
+			m_vertical -= m_forceIncrement;
+			if (m_vertical < -1)
+				m_vertical = -1;
+		} else if ((m_vertical + float.Epsilon) < 0){
+			m_vertical += m_forceIncrement;
+		}  
 
 		float steerChange = Time.deltaTime* m_steerIncrement;
 		if (m_joyStickState [JOYSTICK_BTN_TYPE.RIGHT]) {
@@ -88,6 +97,7 @@ public class VehicleController : MonoBehaviour {
 		} else if ((m_horizontal + float.Epsilon) < 0){
 			m_horizontal += steerChange;
 		}
+		#endif
 
 	}
 	#endregion
