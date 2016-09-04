@@ -62,6 +62,10 @@ public class VehicleController : MonoBehaviour {
 		#if UNITY_EDITOR
 			m_horizontal = Input.GetAxis ("Horizontal");
 			m_vertical = Input.GetAxis ("Vertical");
+			if(Input.GetKeyDown(KeyCode.Space))
+			{
+				m_vehicle.Jump();
+			}
 		#else
 
 		float m_forceIncrement = Time.deltaTime* m_steerIncrement;
@@ -96,6 +100,12 @@ public class VehicleController : MonoBehaviour {
 				m_horizontal = -1;
 		} else if ((m_horizontal + float.Epsilon) < 0){
 			m_horizontal += steerChange;
+		}
+
+		if( m_joyStickState[JOYSTICK_BTN_TYPE.JUMP])
+		{
+			m_vehicle.Jump();
+			m_joyStickState[JOYSTICK_BTN_TYPE.JUMP] = false;
 		}
 		#endif
 

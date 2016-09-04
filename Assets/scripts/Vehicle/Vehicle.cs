@@ -56,6 +56,10 @@ public class Vehicle : MonoBehaviour {
 	private Vector3 rotationAmount;
 
 	private float deviceAccelerometerSensitivity = 2f;
+
+	public float turnVecValue = 100f;
+
+	public float jumpForce = 2000f;
 	#endregion
 	
 	void Start()
@@ -167,7 +171,7 @@ public class Vehicle : MonoBehaviour {
 			actualTurn =- actualTurn;
 		}
 
-		turnVec = (((carUp * turnSpeed) * actualTurn) * carMass) * 800f;
+		turnVec = (((carUp * turnSpeed) * actualTurn) * carMass) * turnVecValue;
 
 		actualGrip = Mathf.Lerp (100, carGrip, mySpeed * 0.02f);
 		imp = myRight * (-slideSpeed * carMass * actualGrip);
@@ -181,15 +185,21 @@ public class Vehicle : MonoBehaviour {
 	void FixedUpdate()
 	{
 		if (mySpeed < maxSpeed) {
-			carRigidbody.AddImpulse (engineForce * Time.deltaTime);
+			carRigidbody.AddImpulse (engineForce * Time.fixedDeltaTime);
 		}
 
 		if (mySpeed > maxSpeedToTurn) {
-			carRigidbody.AddTorque (turnVec * Time.deltaTime);
+			carRigidbody.AddTorque (turnVec * Time.fixedDeltaTime);
 		} else if (mySpeed < maxSpeedToTurn) {
 			return;
 		}
 
-		carRigidbody.AddImpulse (imp * Time.deltaTime);
+		carRigidbody.AddImpulse (imp * Time.fixedDeltaTime);
 	}
+
+	public void Jump()
+	{
+		carRigidbody.AddImpulse (transform.up * jumpForce);
+	}
+		
 }

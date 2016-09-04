@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using BulletUnity;
 
 public class GameControl : MonoBehaviour {
 	public static GameControl Instance;
 
 	public DebugUI m_debugUI;
+
 	#region FPS
 	private float m_minFps = 10000f;
 	private float m_maxFps = 0;
@@ -31,6 +33,11 @@ public class GameControl : MonoBehaviour {
 		}
 		m_totalFps += fps;
 		m_debugUI.SetFpsText ( (int)(m_totalFps / m_fpsCount), (int)m_minFps, (int)m_maxFps);
+	}
+
+	void FixedUpdate()
+	{
+		
 	}
 
 	#region Network
